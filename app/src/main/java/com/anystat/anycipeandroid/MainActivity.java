@@ -6,13 +6,11 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.anystat.anycipeandroid.UI.RecipesGridAdapter;
+import com.anystat.anycipeandroid.UI.RecipesFragment;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -27,22 +25,14 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        RecyclerView mRecyclerView = ((RecyclerView) findViewById(R.id.recipes_recycler_view_test));
 
 
-        RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(this, 2);
+        android.app.FragmentManager fragmentManager = getFragmentManager();
+        android.app.FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
-
-        mRecyclerView.setLayoutManager(mLayoutManager);
-        RecipesGridAdapter adapter = new RecipesGridAdapter(mTestData);
-        mRecyclerView.setAdapter(adapter);
-
-//        android.app.FragmentManager fragmentManager = getFragmentManager();
-//        android.app.FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-
-//        RecipesFragment recipesFragment = new RecipesFragment();
-//        fragmentTransaction.add(R.id.fragment_container, recipesFragment);
-//        fragmentTransaction.commit();
+        RecipesFragment recipesFragment = new RecipesFragment();
+        fragmentTransaction.add(R.id.fragment_container, recipesFragment);
+        fragmentTransaction.commit();
 
 
 

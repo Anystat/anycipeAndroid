@@ -17,27 +17,27 @@ public class RecipesGridAdapter extends RecyclerView.Adapter<RecipesGridAdapter.
         public TextView mTextView;
         public ImageView mImageView;
 
-        public ViewHolder(TextView textView, ImageView imageView) {
-            super(textView);
-            mTextView = textView;
-            mImageView = imageView;
+        public ViewHolder(View v) {
+            super(v);
+            mTextView = ((TextView) v.findViewById(R.id.recipe_item_header));
+            mImageView = ((ImageView) v.findViewById(R.id.recipe_item_img));
 
         }
     }
 
 
     public RecipesGridAdapter(String[] dataset) {
-        mDataset = dataset;
+        this.mDataset = dataset;
     }
 
     @Override
     public RecipesGridAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.recipe_view_list_layout, parent, false);
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.recipe_recycler_view_item_relative, parent, false);
 
-        ViewHolder viewHolder = new ViewHolder((TextView) v.findViewById(R.id.recipe_header), (ImageView) v.findViewById(R.id.recipe_item_image));
 
-        return viewHolder;
+
+        return new ViewHolder(v);
     }
 
     @Override
