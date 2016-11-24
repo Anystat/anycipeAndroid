@@ -26,13 +26,13 @@ public class MainActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
 
 
-
-        android.app.FragmentManager fragmentManager = getFragmentManager();
-        android.app.FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-
-        RecipesFragment recipesFragment = new RecipesFragment();
-        fragmentTransaction.add(R.id.fragment_container, recipesFragment);
-        fragmentTransaction.commit();
+        getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, new RecipesFragment()).commit();
+//        android.app.FragmentManager fragmentManager = getFragmentManager();
+//        android.app.FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+//
+//        RecipesFragment recipesFragment = new RecipesFragment();
+//        fragmentTransaction.add(R.id.fragment_container, recipesFragment);
+//        fragmentTransaction.commit();
 
 
 

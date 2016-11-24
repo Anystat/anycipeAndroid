@@ -1,6 +1,6 @@
 package com.anystat.anycipeandroid.UI;
 
-import android.app.Fragment;
+import android.support.v4.app.Fragment;;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.anystat.anycipeandroid.R;
 
@@ -35,7 +36,13 @@ public class RecipesFragment extends Fragment{
 
 
         mRecyclerView.setLayoutManager(mLayoutManager);
-        RecipesGridAdapter adapter = new RecipesGridAdapter(mTestData);
+        RecipesGridAdapter adapter = new RecipesGridAdapter(mTestData, new RecipesGridAdapter.RecipeViewHolder.RecipeClickListener() {
+            @Override
+            public void onRecipeItemClickListener(int position) {
+                Toast.makeText(mContext, "Postion " + position, Toast.LENGTH_SHORT).show();
+                getFragmentManager().beginTransaction().addToBackStack(null).replace(R.id.fragment_container, new RecipeDetailFragment()).commit();
+            }
+        });
         mRecyclerView.setAdapter(adapter);
 
 
