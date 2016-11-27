@@ -9,7 +9,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
+import com.anystat.anycipeandroid.UI.PlusOneFragment;
 import com.anystat.anycipeandroid.UI.RecipesFragment;
 
 public class MainActivity extends AppCompatActivity
@@ -49,7 +51,8 @@ public class MainActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.setDrawerListener(toggle);
+        drawer.addDrawerListener(toggle);
+        //drawer.setDrawerListener(toggle);
         toggle.syncState();
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
@@ -93,11 +96,12 @@ public class MainActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
-
+        Toast.makeText(getApplicationContext(), id, Toast.LENGTH_SHORT).show();
         if (id == R.id.nav_recipes) {
 
         } else if (id == R.id.nav_shopping_list) {
-
+            Toast.makeText(getApplicationContext(), "Shopping list", Toast.LENGTH_SHORT).show();
+            getSupportFragmentManager().beginTransaction().addToBackStack(null).replace(R.id.fragment_container, new PlusOneFragment()).commit();
         } else if (id == R.id.nav_favorite_recipes) {
 
         } else if (id == R.id.nav_share) {
