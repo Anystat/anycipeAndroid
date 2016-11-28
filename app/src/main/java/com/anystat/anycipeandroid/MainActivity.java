@@ -24,7 +24,7 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
+        findViewById(R.id.fragment_container);
 
         getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, new RecipesFragment()).commit();
 //        android.app.FragmentManager fragmentManager = getFragmentManager();
