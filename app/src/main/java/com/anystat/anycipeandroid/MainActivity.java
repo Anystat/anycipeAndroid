@@ -1,5 +1,6 @@
 package com.anystat.anycipeandroid;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -9,13 +10,15 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
 
-import com.anystat.anycipeandroid.UI.PlusOneFragment;
 import com.anystat.anycipeandroid.UI.RecipesFragment;
+import com.anystat.anycipeandroid.UI.ShoppingListActivity;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+    ActionBarDrawerToggle toggle;
+    DrawerLayout drawer;
 
     String[] mTestData = {"11231231", "3213543543", "4123123123", "53452435234", "gfdsgdfgfdg", "23412342", "12341234", "123412fds", "f234rf34f"};
 
@@ -26,7 +29,7 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
+        findViewById(R.id.fragment_container);
 
         getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, new RecipesFragment()).commit();
 //        android.app.FragmentManager fragmentManager = getFragmentManager();
@@ -48,11 +51,10 @@ public class MainActivity extends AppCompatActivity
 //            }
 //        });
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+        drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
-        //drawer.setDrawerListener(toggle);
         toggle.syncState();
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
@@ -96,12 +98,12 @@ public class MainActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
-        Toast.makeText(getApplicationContext(), id, Toast.LENGTH_SHORT).show();
+
         if (id == R.id.nav_recipes) {
 
         } else if (id == R.id.nav_shopping_list) {
-            Toast.makeText(getApplicationContext(), "Shopping list", Toast.LENGTH_SHORT).show();
-            getSupportFragmentManager().beginTransaction().addToBackStack(null).replace(R.id.fragment_container, new PlusOneFragment()).commit();
+            drawer.removeDrawerListener(toggle);
+            startActivity(new Intent(this, ShoppingListActivity.class));
         } else if (id == R.id.nav_favorite_recipes) {
 
         } else if (id == R.id.nav_share) {
