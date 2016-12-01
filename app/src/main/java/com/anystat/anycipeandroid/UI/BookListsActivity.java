@@ -11,15 +11,15 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.anystat.anycipeandroid.R;
-import com.anystat.anycipeandroid.UI.dummy.DummyContent;
+import com.anystat.anycipeandroid.Storage.SListItem;
 
-public class ShoppingListActivity extends AppCompatActivity
-            implements NavigationView.OnNavigationItemSelectedListener , ShoppingListFragment.OnListFragmentInteractionListener {
+public class BookListsActivity extends AppCompatActivity
+            implements NavigationView.OnNavigationItemSelectedListener  {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_shopping_list);
+        setContentView(R.layout.activity_book_lists);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -32,7 +32,7 @@ public class ShoppingListActivity extends AppCompatActivity
             }
         });
 
-        getSupportFragmentManager().beginTransaction().add(R.id.shopping_list_fragment_container, new ShoppingListFragment()).commit();
+        getSupportFragmentManager().beginTransaction().add(R.id.shopping_list_fragment_container, new BookListsFragment()).commit();
 
 //        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
 //        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -59,8 +59,5 @@ public class ShoppingListActivity extends AppCompatActivity
         return false;
     }
 
-    @Override
-    public void onListFragmentInteraction(DummyContent.DummyItem item) {
 
-    }
 }

@@ -1,9 +1,8 @@
 package com.anystat.anycipeandroid.UI;
 
-import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -11,84 +10,41 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.anystat.anycipeandroid.R;
-import com.anystat.anycipeandroid.UI.dummy.DummyContent;
-import com.anystat.anycipeandroid.UI.dummy.DummyContent.DummyItem;
+import com.anystat.anycipeandroid.Storage.SListItem;
+import com.anystat.anycipeandroid.Storage.ShoppingList;
 
-/**
- * A fragment representing a list of Items.
- * <p/>
- * Activities containing this fragment MUST implement the {@link OnListFragmentInteractionListener}
- * interface.
- */
-public class ShoppingListFragment extends Fragment {
+import java.util.List;
 
-    // TODO: Customize parameters
-    private int mColumnCount = 1;
+public class ShoppingListFragment extends Fragment{
 
-    private OnListFragmentInteractionListener mListener;
+    int itemPosition;
+    List<SListItem> sListItems;
+    ShoppingList mShoppingList;
 
-    /**
-     * Mandatory empty constructor for the fragment manager to instantiate the
-     * fragment (e.g. upon screen orientation changes).
-     */
     public ShoppingListFragment() {
+
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        itemPosition = (int) getArguments().get("position");
+        sListItems = ShoppingList.ITEMS.get(itemPosition);
+
 
     }
 
+    @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_sl_item_list, container, false);
-
-        // Set the adapter
-        if (view instanceof RecyclerView) {
-            Context context = view.getContext();
-            RecyclerView recyclerView = (RecyclerView) view;
-            if (mColumnCount <= 1) {
-                recyclerView.setLayoutManager(new LinearLayoutManager(context));
-            } else {
-                recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
-            }
-            recyclerView.setAdapter(new ShoppingListRecyclerViewAdapter(DummyContent.ITEMS, mListener));
-        }
-        return view;
-    }
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View rootView = inflater.inflate(R.layout.fragment_shopping_list, container, false);
 
 
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof OnListFragmentInteractionListener) {
-            mListener = (OnListFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnListFragmentInteractionListener");
-        }
-    }
 
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
-    }
+        RecyclerView mRecyclerView = ((RecyclerView) rootView.findViewById(R.id.shopping_list_recycler_view));
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p/>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
-    public interface OnListFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onListFragmentInteraction(DummyItem item);
+        ShoppingListRecyclerViewAdapter mAdapter = new ShoppingListRecyclerViewAdapter()
+        return super.onCreateView(inflater, container, savedInstanceState);
     }
 }

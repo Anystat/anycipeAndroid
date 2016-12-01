@@ -1,78 +1,70 @@
 package com.anystat.anycipeandroid.UI;
 
+
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 import android.widget.TextView;
-
 import com.anystat.anycipeandroid.R;
-import com.anystat.anycipeandroid.UI.ShoppingListFragment.OnListFragmentInteractionListener;
-import com.anystat.anycipeandroid.UI.dummy.DummyContent.DummyItem;
+import com.anystat.anycipeandroid.Storage.SListItem;
 
 import java.util.List;
 
-/**
- * {@link RecyclerView.Adapter} that can display a {@link DummyItem} and makes a call to the
- * specified {@link OnListFragmentInteractionListener}.
- * TODO: Replace the implementation with code for your data type.
- */
-public class ShoppingListRecyclerViewAdapter extends RecyclerView.Adapter<ShoppingListRecyclerViewAdapter.ViewHolder> {
+public class ShoppingListRecyclerViewAdapter extends RecyclerView.Adapter<ShoppingListRecyclerViewAdapter.ShoppingListViewHolder>{
 
-    private final List<DummyItem> mValues;
-    private final OnListFragmentInteractionListener mListener;
+    private List<SListItem> mItems;
 
-    public ShoppingListRecyclerViewAdapter(List<DummyItem> items, OnListFragmentInteractionListener listener) {
-        mValues = items;
-        mListener = listener;
+    public ShoppingListRecyclerViewAdapter(List<SListItem> mItems) {
+        this.mItems = mItems;
     }
 
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.fragment_sl_item, parent, false);
-        return new ViewHolder(view);
+    public ShoppingListViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.shopping_list_recycler_view_item, parent, false);
+
+
+        return new ShoppingListViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(final ViewHolder holder, int position) {
-        holder.mItem = mValues.get(position);
-        holder.mIdView.setText(mValues.get(position).id);
-        holder.mContentView.setText(mValues.get(position).content);
+    public void onBindViewHolder(ShoppingListViewHolder holder, int position) {
 
-        holder.mView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (null != mListener) {
-                    // Notify the active callbacks interface (the activity, if the
-                    // fragment is attached to one) that an item has been selected.
-                    mListener.onListFragmentInteraction(holder.mItem);
-                }
-            }
-        });
+        SListItem sListItem = mItems.get(position);
+        holder.mCheckbox.setChecked(sListItem.checked);
+        holder.mSlName.setText(sListItem.name);
+        holder.mSlQuantity.setText(sListItem.quantity);
+        holder.mSlUnits.setText(sListItem.unit);
+
     }
 
     @Override
     public int getItemCount() {
-        return mValues.size();
+        return mItems.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
-        public final View mView;
-        public final TextView mIdView;
-        public final TextView mContentView;
-        public DummyItem mItem;
+    public class ShoppingListViewHolder extends RecyclerView.ViewHolder{
 
-        public ViewHolder(View view) {
-            super(view);
-            mView = view;
-            mIdView = (TextView) view.findViewById(R.id.id);
-            mContentView = (TextView) view.findViewById(R.id.content);
-        }
+        public CheckBox mCheckbox;
+        public TextView mSlName;
+        public TextView mSlQuantity;
+        public TextView mSlUnits;
 
-        @Override
-        public String toString() {
-            return super.toString() + " '" + mContentView.getText() + "'";
+
+
+        public ShoppingListViewHolder(View v) {
+            super(v);
+            mCheckbox = ((CheckBox) v.findViewById(R.id.sl_checkbox));
+            mSlName = ((TextView) v.findViewById(R.id.sl_name));
+            mSlQuantity = ((TextView) v.findViewById(R.id.sl_quantity));
+            mSlUnits = ((TextView) v.findViewById(R.id.sl_units));
+
         }
     }
+
+
+
+
+
 }

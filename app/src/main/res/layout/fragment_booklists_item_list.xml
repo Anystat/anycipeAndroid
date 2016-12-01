@@ -10,5 +10,5 @@
     android:layout_marginLeft="16dp"
     android:layout_marginRight="16dp"
     app:layoutManager="LinearLayoutManager"
-    tools:context="com.anystat.anycipeandroid.UI.ShoppingListFragment"
-    tools:listitem="@layout/fragment_sl_item"/>
+    tools:context="com.anystat.anycipeandroid.UI.BookListsFragment"
+    tools:listitem="@layout/booklists_item_layout"/>

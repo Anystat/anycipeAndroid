@@ -39,7 +39,7 @@ public class RecipesFragment extends Fragment{
         RecipesGridAdapter adapter = new RecipesGridAdapter(mTestData, new RecipesGridAdapter.RecipeViewHolder.RecipeClickListener() {
             @Override
             public void onRecipeItemClickListener(int position) {
-                Toast.makeText(mContext, "Postion " + position, Toast.LENGTH_SHORT).show();
+                Toast.makeText(mContext, "Position " + position, Toast.LENGTH_SHORT).show();
                 getFragmentManager().beginTransaction().addToBackStack(null).replace(R.id.fragment_container, new RecipeDetailFragment()).commit();
             }
         });

@@ -12,7 +12,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.anystat.anycipeandroid.UI.RecipesFragment;
-import com.anystat.anycipeandroid.UI.ShoppingListActivity;
+import com.anystat.anycipeandroid.UI.BookListsActivity;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -103,7 +103,7 @@ public class MainActivity extends AppCompatActivity
 
         } else if (id == R.id.nav_shopping_list) {
             drawer.removeDrawerListener(toggle);
-            startActivity(new Intent(this, ShoppingListActivity.class));
+            startActivity(new Intent(this, BookListsActivity.class));
         } else if (id == R.id.nav_favorite_recipes) {
 
         } else if (id == R.id.nav_share) {
