@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.anystat.anycipeandroid.R;
 import com.anystat.anycipeandroid.Storage.SListItem;
@@ -38,7 +39,12 @@ public class BookListsFragment extends Fragment {
         this.mListener = new BookListsRecyclerViewAdapter.ViewHolder.BookListsClickListener() {
             @Override
             public void bookListsClickListener(int position) {
-                ShoppingList.ITEMS.get(position);
+                Bundle args = new Bundle();
+                args.pu
+
+                getChildFragmentManager().beginTransaction().replace(R.id.container_shopping_list_fragment, new ShoppingListFragment()).commit();
+                //Toast.makeText(getContext(), dummyLists.get(position) + "", Toast.LENGTH_SHORT).show();
+
             }
 
 
@@ -62,7 +68,7 @@ public class BookListsFragment extends Fragment {
             RecyclerView recyclerView = (RecyclerView) view;
             recyclerView.setLayoutManager(new LinearLayoutManager(context));
 
-            recyclerView.setAdapter(new BookListsRecyclerViewAdapter(ShoppingList.ITEMS, mListener));
+            recyclerView.setAdapter(new BookListsRecyclerViewAdapter(dummyLists, mListener));
         }
         return view;
     }

@@ -32,7 +32,7 @@ public class BookListsActivity extends AppCompatActivity
             }
         });
 
-        getSupportFragmentManager().beginTransaction().add(R.id.shopping_list_fragment_container, new BookListsFragment()).commit();
+        getSupportFragmentManager().beginTransaction().add(R.id.container_shopping_list_fragment, new BookListsFragment()).commit();
 
 //        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
 //        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(

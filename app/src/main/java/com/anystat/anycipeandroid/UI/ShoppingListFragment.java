@@ -44,7 +44,7 @@ public class ShoppingListFragment extends Fragment{
         RecyclerView mRecyclerView = ((RecyclerView) rootView.findViewById(R.id.shopping_list_recycler_view));
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        ShoppingListRecyclerViewAdapter mAdapter = new ShoppingListRecyclerViewAdapter()
+        ShoppingListRecyclerViewAdapter mAdapter = new ShoppingListRecyclerViewAdapter();
         return super.onCreateView(inflater, container, savedInstanceState);
     }
 }
