@@ -7,8 +7,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.TextView;
+
+import com.anystat.anycipeandroid.Data.Storage.SListItem;
 import com.anystat.anycipeandroid.R;
-import com.anystat.anycipeandroid.Storage.SListItem;
 
 import java.util.List;
 
@@ -23,6 +24,7 @@ public class ShoppingListRecyclerViewAdapter extends RecyclerView.Adapter<Shoppi
     @Override
     public ShoppingListViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.shopping_list_recycler_view_item, parent, false);
+
 
 
         return new ShoppingListViewHolder(view);

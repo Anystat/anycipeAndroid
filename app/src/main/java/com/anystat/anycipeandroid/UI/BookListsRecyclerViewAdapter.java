@@ -6,12 +6,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.anystat.anycipeandroid.Data.Storage.ShoppingList;
 import com.anystat.anycipeandroid.R;
-import com.anystat.anycipeandroid.Storage.SListItem;
-import com.anystat.anycipeandroid.Storage.ShoppingList;
-
-
 import java.util.List;
+
 
 
 public class BookListsRecyclerViewAdapter extends RecyclerView.Adapter<BookListsRecyclerViewAdapter.ViewHolder> {
@@ -20,9 +18,46 @@ public class BookListsRecyclerViewAdapter extends RecyclerView.Adapter<BookLists
     private ViewHolder.BookListsClickListener mListener;
     //private final OnListFragmentInteractionListener mListener;
 
+    public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+
+        private BookListsClickListener mListener;
+        public final View mView;
+        public final TextView mIdView;
+        public final TextView mContentView;
+        public ShoppingList mItem;
+
+        public ViewHolder(View view, BookListsClickListener clickListener) {
+            super(view);
+            this.mListener= clickListener;
+            mView = view;
+            mIdView = (TextView) view.findViewById(R.id.id);
+            mContentView = (TextView) view.findViewById(R.id.content);
+            view.setOnClickListener(this);
+        }
+
+        @Override
+        public String toString() {
+            return super.toString() + " '" + mContentView.getText() + "'";
+        }
+
+        @Override
+        public void onClick(View view) {
+            if(mListener != null){
+                mListener.onBookListsClickListener(getAdapterPosition());
+            }
+        }
+        public  interface BookListsClickListener {
+            void onBookListsClickListener(int position);
+        }
+
+//        public interface BookListsClickListener{
+//            void bookListsClickListener(int position);
+//        }
+    }
+
     public BookListsRecyclerViewAdapter(List<ShoppingList> items, ViewHolder.BookListsClickListener listener) {
-        mValues = items;
-        mListener = listener;
+        this.mValues = items;
+        this.mListener = listener;
     }
 
     @Override
@@ -35,7 +70,7 @@ public class BookListsRecyclerViewAdapter extends RecyclerView.Adapter<BookLists
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         holder.mItem = mValues.get(position);
-        holder.mIdView.setText(mValues.get(position).id);
+        holder.mIdView.setText(String.valueOf(mValues.get(position).id));
         holder.mContentView.setText(mValues.get(position).name);
 
 //        holder.mView.setOnClickListener(new View.OnClickListener() {
@@ -55,39 +90,8 @@ public class BookListsRecyclerViewAdapter extends RecyclerView.Adapter<BookLists
         return mValues.size();
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
-        private BookListsClickListener mListener;
-        public final View mView;
-        public final TextView mIdView;
-        public final TextView mContentView;
-        public ShoppingList mItem;
 
-        public ViewHolder(View view, BookListsClickListener clickListener) {
-            super(view);
-            mView = view;
-            mIdView = (TextView) view.findViewById(R.id.id);
-            mContentView = (TextView) view.findViewById(R.id.content);
-            view.setOnClickListener(this);
-        }
 
-        @Override
-        public String toString() {
-            return super.toString() + " '" + mContentView.getText() + "'";
-        }
 
-        @Override
-        public void onClick(View view) {
-
-        }
-
-        public  interface BookListsClickListener {
-            void bookListsClickListener(int position);
-           // void bookListsClickListener(ShoppingList list);
-
-        }
-//        public interface BookListsClickListener{
-//            void bookListsClickListener(int position);
-//        }
-    }
 }

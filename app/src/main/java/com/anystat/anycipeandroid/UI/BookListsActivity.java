@@ -10,11 +10,17 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.anystat.anycipeandroid.Data.Storage.ShoppingList;
+import com.anystat.anycipeandroid.Data.Storage.ShoppingListTestGenerator;
 import com.anystat.anycipeandroid.R;
-import com.anystat.anycipeandroid.Storage.SListItem;
+
+import java.util.List;
+
 
 public class BookListsActivity extends AppCompatActivity
             implements NavigationView.OnNavigationItemSelectedListener  {
+
+    public static List<ShoppingList> dummyLists;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,6 +28,8 @@ public class BookListsActivity extends AppCompatActivity
         setContentView(R.layout.activity_book_lists);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        dummyLists = new ShoppingListTestGenerator().getList();
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -32,7 +40,7 @@ public class BookListsActivity extends AppCompatActivity
             }
         });
 
-        getSupportFragmentManager().beginTransaction().add(R.id.container_shopping_list_fragment, new BookListsFragment()).commit();
+        getSupportFragmentManager().beginTransaction().replace(R.id.container_shopping_list_fragment, new BookListsFragment()).commit();
 
 //        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
 //        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
