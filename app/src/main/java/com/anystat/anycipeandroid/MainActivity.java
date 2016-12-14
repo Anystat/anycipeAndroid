@@ -13,9 +13,9 @@ import android.view.MenuItem;
 import com.anystat.anycipeandroid.UI.RecipesFragment;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener{
 
-    String[] mTestData = {"11231231", "3213543543", "4123123123", "53452435234", "gfdsgdfgfdg", "23412342", "12341234", "123412fds", "f234rf34f"};
+     RecipesFragment mRecipesFragment;
 
 
     @Override
@@ -25,35 +25,24 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         findViewById(R.id.fragment_container);
-
-        getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, new RecipesFragment()).commit();
-//        android.app.FragmentManager fragmentManager = getFragmentManager();
-//        android.app.FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-//
-//        RecipesFragment recipesFragment = new RecipesFragment();
-//        fragmentTransaction.add(R.id.fragment_container, recipesFragment);
-//        fragmentTransaction.commit();
+        mRecipesFragment = new RecipesFragment();
 
 
 
-//
-//        FloatingActionButton fab = (FloatingActionButton) findViewById(fab);
-//        fab.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
-//            }
-//        });
+
+        getSupportFragmentManager().beginTransaction().add(R.id.fragment_container,mRecipesFragment).commit();
+
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.setDrawerListener(toggle);
+        drawer.addDrawerListener(toggle);
         toggle.syncState();
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+
     }
 
     @Override
@@ -68,9 +57,9 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
-        return true;
+      getMenuInflater().inflate(R.menu.main, menu);
+
+        return false;
     }
 
     @Override
@@ -84,6 +73,7 @@ public class MainActivity extends AppCompatActivity
         if (id == R.id.action_settings) {
             return true;
         }
+
 
         return super.onOptionsItemSelected(item);
     }
@@ -110,4 +100,6 @@ public class MainActivity extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
+
 }

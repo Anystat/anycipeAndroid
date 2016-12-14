@@ -7,18 +7,30 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.anystat.anycipeandroid.DataManager;
+import com.anystat.anycipeandroid.Network.response.Recipe;
 import com.anystat.anycipeandroid.R;
 
 
 public class RecipeDetailFragment extends Fragment {
+    DataManager mDataManager;
+    Recipe mRecipe;
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mDataManager = DataManager.getDataManager(getContext());
+
     }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         return inflater.inflate(R.layout.recipe_detail_fragment_layout, container, false);
+    }
+
+
+    public void setArguments(int position) {
+
     }
 }
