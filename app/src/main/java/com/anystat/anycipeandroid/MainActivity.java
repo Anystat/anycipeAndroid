@@ -1,21 +1,29 @@
 package com.anystat.anycipeandroid;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.anystat.anycipeandroid.UI.RecipeDetailActivity;
 import com.anystat.anycipeandroid.UI.RecipesFragment;
+import com.anystat.anycipeandroid.UI.RecipesGridAdapter;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener{
+        implements NavigationView.OnNavigationItemSelectedListener, DataManager.ResponseListener, RecipesGridAdapter.RecipeViewHolder.RecipeClickListener{
 
-     RecipesFragment mRecipesFragment;
+     //RecipesFragment mRecipesFragment;
+     DataManager mDataManager;
+    private final String TAG = getClass().getSimpleName();
 
 
     @Override
@@ -25,12 +33,15 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         findViewById(R.id.fragment_container);
-        mRecipesFragment = new RecipesFragment();
-
-
-
-
-        getSupportFragmentManager().beginTransaction().add(R.id.fragment_container,mRecipesFragment).commit();
+        mDataManager = DataManager.getDataManager(this);
+        mDataManager.setResponselistener(this);
+        Log.d(TAG, "DataManager" + mDataManager.toString());
+//        mRecipesFragment = new RecipesFragment();
+//
+//
+//
+//
+//        getSupportFragmentManager().beginTransaction().add(R.id.fragment_container,mRecipesFragment).commit();
 
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -57,9 +68,26 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-      getMenuInflater().inflate(R.menu.main, menu);
+        getMenuInflater().inflate(R.menu.main, menu);
+        MenuItem item = menu.findItem(R.id.action_search);
 
-        return false;
+        SearchView searchView = (SearchView) item.getActionView();
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                if(query != null){
+                    mDataManager.findRecipeFromAPI(query);
+                }
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                return false;
+            }
+        });
+        return true;
     }
 
     @Override
@@ -102,4 +130,33 @@ public class MainActivity extends AppCompatActivity
     }
 
 
+    @Override
+    public void response(boolean success, String error) {
+        if(success){
+            Log.d(TAG, "Response reached");
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new RecipesFragment()).setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).commit();
+        }else {
+            Log.e(TAG, "Error: " + error);
+        }
+    }
+
+    @Override
+    public void onRecipeItemClickListener(int position) {
+//        Log.d(TAG, "Callback from recyclerView. Position: " + position);
+//        Bundle bundle = new Bundle();
+//        bundle.putInt("position", position);
+//        RecipeDetailFragment recipeDetailFragment = new RecipeDetailFragment();
+//        Log.d(TAG, "Callback from recyclerView. bundle: " + bundle.size());
+//        recipeDetailFragment.setArguments(bundle);
+//        getSupportFragmentManager()
+//                .beginTransaction()
+//                .replace(R.id.fragment_container,recipeDetailFragment)
+//                .addToBackStack(null)
+//                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+//                .commit();
+        Intent intent = new Intent();
+        intent.setClass(this, RecipeDetailActivity.class);
+        intent.putExtra("position", position);
+        startActivity(intent);
+    }
 }

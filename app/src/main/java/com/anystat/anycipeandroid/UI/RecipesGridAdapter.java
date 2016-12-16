@@ -15,7 +15,7 @@ import java.util.List;
 public class RecipesGridAdapter extends RecyclerView.Adapter<RecipesGridAdapter.RecipeViewHolder> {
 
     private final String TAG = getClass().getSimpleName();
-    private List<Recipe> mDataset;
+    private List<Recipe> mDataSet;
     private RecipeViewHolder.RecipeClickListener mClickListener;
 
 
@@ -53,17 +53,17 @@ public class RecipesGridAdapter extends RecyclerView.Adapter<RecipesGridAdapter.
 
     public RecipesGridAdapter(List<Recipe> dataset, RecipeViewHolder.RecipeClickListener clickListener) {
         this.mClickListener = clickListener;
-        this.mDataset = dataset;
+        this.mDataSet = dataset;
     }
 
     public void clear(){
-        mDataset.clear();
+        mDataSet.clear();
         notifyDataSetChanged();
     }
 
     public void setData(List<Recipe> data){
         clear();
-        mDataset = data;
+        mDataSet = data;
         notifyDataSetChanged();
 
 
@@ -78,14 +78,14 @@ public class RecipesGridAdapter extends RecyclerView.Adapter<RecipesGridAdapter.
 
     @Override
     public void onBindViewHolder(RecipeViewHolder holder, int position) {
-        Recipe recipe = mDataset.get(position);
+        Recipe recipe = mDataSet.get(position);
         holder.mTextView.setText(recipe.receipt);
         holder.mImageView.setImageResource(R.drawable.test);
     }
 
     @Override
     public int getItemCount() {
-       return mDataset.size();
+       return mDataSet.size();
     }
 
 

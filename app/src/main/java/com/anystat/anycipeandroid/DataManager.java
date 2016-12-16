@@ -21,9 +21,11 @@ public class DataManager {
     private Context mContext;
     private static DataManager INSTANCE = null;
     private ResponseListener responseListener;
+    public List<Recipe> mDataSet;
+
 
     private DataManager(Context context) {
-        //this.responseListener = listener;
+        this.mDataSet = new ArrayList<>();
         this.mContext = context;
         this.mIRestAPI = ServiceGenerator.createService(IRestAPI.class);
     }
@@ -31,9 +33,11 @@ public class DataManager {
 
     public static DataManager getDataManager(Context context) {
         if (INSTANCE == null) {
-            return new DataManager(context);
+            Log.d(TAG_API, "DataManager new instance");
+            INSTANCE = new DataManager(context);
+            return INSTANCE;
         }
-
+        Log.d(TAG_API, "DataManager old instance");
         return INSTANCE;
     }
 
@@ -91,21 +95,23 @@ public class DataManager {
             @Override
             public void onResponse(Call<List<Recipe>> call, Response<List<Recipe>> response) {
                 if(response.isSuccessful()){
-
-                    responseListener.response(collectRecipes(response));
+                    mDataSet = collectRecipes(response);
+                    Log.d(TAG_API, "DataManager collect " + mDataSet.size() +" recipes");
+                    responseListener.response(true, null);
                 }
             }
 
             @Override
             public void onFailure(Call<List<Recipe>> call, Throwable t) {
                 Log.d(TAG_API, "RETROFIT FAILURE " + t.getMessage());
+                responseListener.response(false, t.getMessage());
             }
         };
     }
 
 
     public interface ResponseListener{
-        void response(List<Recipe> response);
+        void response(boolean success, String error);
     }
 
 }

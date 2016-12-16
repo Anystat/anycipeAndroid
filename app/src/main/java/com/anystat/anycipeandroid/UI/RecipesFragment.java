@@ -6,30 +6,28 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.SearchView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.anystat.anycipeandroid.DataManager;
+import com.anystat.anycipeandroid.MainActivity;
 import com.anystat.anycipeandroid.Network.response.Recipe;
 import com.anystat.anycipeandroid.R;
 
-import java.util.ArrayList;
 import java.util.List;
 
 
 
-public class RecipesFragment extends Fragment implements DataManager.ResponseListener{
+public class RecipesFragment extends Fragment {
     private final String TAG = this.getClass().getSimpleName();
     private RecipesGridAdapter mAdapter;
     private Context mContext;
     private DataManager mDataManager;
-    List<Recipe> mData ;
+    List<Recipe> mDataSet;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -37,31 +35,16 @@ public class RecipesFragment extends Fragment implements DataManager.ResponseLis
         mContext = getActivity().getApplicationContext();
         setHasOptionsMenu(true);
         mDataManager = DataManager.getDataManager(mContext);
-        mDataManager.setResponselistener(this);
+        Log.d(TAG, "DataManager" + mDataManager.toString());
+
+        //mDataManager.setResponselistener(this);
 
     }
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.main, menu);
-        MenuItem item = menu.findItem(R.id.action_search);
 
-        SearchView searchView = (SearchView) item.getActionView();
-
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                if(query != null){
-                    mDataManager.findRecipeFromAPI(query);
-                }
-                return true;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                return false;
-            }
-        });
+        super.onCreateOptionsMenu(menu, inflater);
 
 
 
@@ -71,20 +54,24 @@ public class RecipesFragment extends Fragment implements DataManager.ResponseLis
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.recipes_fragment_layout, container, false);
+        mDataSet = mDataManager.mDataSet;
 
-        mData = new ArrayList<>();
+        Log.d(TAG, "DataManager size: " + mDataManager.mDataSet.size());
+        Log.d(TAG, "Dataset size: " + mDataSet.size());
+        //mDataSet = new ArrayList<>();
 
         RecyclerView mRecyclerView = ((RecyclerView) rootView.findViewById(R.id.recipes_recycler_view));
         RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(getActivity(), 2);
         mRecyclerView.setLayoutManager(mLayoutManager);
-        mAdapter = new RecipesGridAdapter(mData, new RecipesGridAdapter.RecipeViewHolder.RecipeClickListener() {
-            @Override
-            public void onRecipeItemClickListener(int position) {
-                Toast.makeText(mContext, "Position " + position, Toast.LENGTH_SHORT).show();
-                RecipeDetailFragment recipeDetailFragment = new RecipeDetailFragment();
-                getFragmentManager().beginTransaction().addToBackStack(null).replace(R.id.fragment_container, recipeDetailFragment).commit();
-            }
-        });
+        mAdapter = new RecipesGridAdapter(mDataSet, (MainActivity)getActivity());
+//        mAdapter = new RecipesGridAdapter(mDataSet, new RecipesGridAdapter.RecipeViewHolder.RecipeClickListener() {
+//            @Override
+//            public void onRecipeItemClickListener(int position) {
+//                Toast.makeText(mContext, "Position " + position, Toast.LENGTH_SHORT).show();
+//                RecipeDetailFragment recipeDetailFragment = new RecipeDetailFragment();
+//                getFragmentManager().beginTransaction().addToBackStack(null).replace(R.id.fragment_container, recipeDetailFragment).commit();
+//            }
+//        });
         mRecyclerView.setAdapter(mAdapter);
 
 
@@ -93,11 +80,7 @@ public class RecipesFragment extends Fragment implements DataManager.ResponseLis
 
 
 
-    @Override
-    public void response(List<Recipe> response) {
-        mAdapter.setData(response);
 
-    }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {

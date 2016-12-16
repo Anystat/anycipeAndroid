@@ -35,6 +35,7 @@ public class Recipe implements Parcelable{
         link = in.readString();
         description = in.readString();
         instruction = in.readString();
+        ingredients = in.readArrayList(null);
     }
 
     public static final Creator<Recipe> CREATOR = new Creator<Recipe>() {
