@@ -17,6 +17,7 @@ import android.view.MenuItem;
 import com.anystat.anycipeandroid.UI.RecipeDetailActivity;
 import com.anystat.anycipeandroid.UI.RecipesFragment;
 import com.anystat.anycipeandroid.UI.RecipesGridAdapter;
+import com.anystat.anycipeandroid.UI.BookListsActivity;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, DataManager.ResponseListener, RecipesGridAdapter.RecipeViewHolder.RecipeClickListener{
@@ -38,26 +39,31 @@ public class MainActivity extends AppCompatActivity
         Log.d(TAG, "DataManager" + mDataManager.toString());
 //        mRecipesFragment = new RecipesFragment();
 //
-//
-//
-//
-//        getSupportFragmentManager().beginTransaction().add(R.id.fragment_container,mRecipesFragment).commit();
+//        RecipesFragment recipesFragment = new RecipesFragment();
+//        fragmentTransaction.add(R.id.fragment_container, recipesFragment);
+//        fragmentTransaction.commit();
 
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+
+//
+//        FloatingActionButton fab = (FloatingActionButton) findViewById(fab);
+//        fab.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+//                        .setAction("Action", null).show();
+//            }
+//        });
+
+        drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-
-
-
     }
-
-
 
     @Override
     public void onBackPressed() {
@@ -111,7 +117,6 @@ public class MainActivity extends AppCompatActivity
             return true;
         }
 
-
         return super.onOptionsItemSelected(item);
     }
 
@@ -124,7 +129,8 @@ public class MainActivity extends AppCompatActivity
         if (id == R.id.nav_recipes) {
 
         } else if (id == R.id.nav_shopping_list) {
-
+            drawer.removeDrawerListener(toggle);
+            startActivity(new Intent(this, BookListsActivity.class));
         } else if (id == R.id.nav_favorite_recipes) {
 
         } else if (id == R.id.nav_share) {

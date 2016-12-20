@@ -34,8 +34,6 @@ public class RecipesGridAdapter extends RecyclerView.Adapter<RecipesGridAdapter.
 
         }
 
-
-
         @Override
         public void onClick(View view) {
             if(mListener != null){
