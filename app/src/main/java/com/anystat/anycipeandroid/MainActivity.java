@@ -14,10 +14,10 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.anystat.anycipeandroid.UI.BookListsActivity;
 import com.anystat.anycipeandroid.UI.RecipeDetailActivity;
 import com.anystat.anycipeandroid.UI.RecipesFragment;
 import com.anystat.anycipeandroid.UI.RecipesGridAdapter;
-import com.anystat.anycipeandroid.UI.BookListsActivity;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, DataManager.ResponseListener, RecipesGridAdapter.RecipeViewHolder.RecipeClickListener{
@@ -25,6 +25,8 @@ public class MainActivity extends AppCompatActivity
      //RecipesFragment mRecipesFragment;
      DataManager mDataManager;
     private final String TAG = getClass().getSimpleName();
+    DrawerLayout drawer;
+    ActionBarDrawerToggle mToggle;
     //private ProgressBar mProgressBar;
 
     @Override
@@ -56,10 +58,10 @@ public class MainActivity extends AppCompatActivity
 //        });
 
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        toggle = new ActionBarDrawerToggle(
+        mToggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.addDrawerListener(toggle);
-        toggle.syncState();
+        drawer.addDrawerListener(mToggle);
+        mToggle.syncState();
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
@@ -129,7 +131,7 @@ public class MainActivity extends AppCompatActivity
         if (id == R.id.nav_recipes) {
 
         } else if (id == R.id.nav_shopping_list) {
-            drawer.removeDrawerListener(toggle);
+            drawer.removeDrawerListener(mToggle);
             startActivity(new Intent(this, BookListsActivity.class));
         } else if (id == R.id.nav_favorite_recipes) {
 
