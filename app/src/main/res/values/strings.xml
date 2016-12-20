@@ -9,6 +9,8 @@
     <string name="menu_shopping_list">Списки покупок</string>
     <string name="menu_favorite_recipes">Мои рецепты</string>
     <string name="gradient_description">Image gradient shade</string>
-    <string name="test_string">SAdAsdsadsadl lasd sdgfldsaj gl;kjfd gj afljkg ldffdslgj dslfkjg l;sdfjg</string>
+    <string name="test_string">Blah bla bla blah bla</string>
+    <string name="recipe_search">Искать рецепты</string>
+    <string name="title_activity_test">Test</string>
     <string name="title_activity_shopping_list">Списки покупок</string>
 </resources>

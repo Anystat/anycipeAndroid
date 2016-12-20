@@ -3,7 +3,7 @@
               xmlns:app="http://schemas.android.com/apk/res-auto"
               android:orientation="vertical"
               android:layout_width="match_parent"
-              android:layout_height="match_parent">
+              android:layout_height="wrap_content" >
 
 
     <FrameLayout
@@ -27,9 +27,10 @@
             android:layout_gravity="bottom"/>
 
         <TextView
-            android:layout_width="match_parent"
+            android:id="@+id/recipe_detail_title"
+            android:layout_width="387dp"
             android:layout_height="match_parent"
-            android:text="Test"
+            android:text="@string/test_string"
             android:textSize="20sp"
             android:textAppearance="@style/TextAppearance.AppCompat.Headline"
             android:textColor="#FFFFFF"
@@ -39,9 +40,11 @@
 
 
     </FrameLayout>
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/test_string"/>
+
+    <ListView
+        android:id="@+id/recipe_detail_ingredients_list_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
 
 </LinearLayout>
