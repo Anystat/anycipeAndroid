@@ -6,7 +6,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -33,11 +32,11 @@ public class RecipesFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mContext = getActivity().getApplicationContext();
-        setHasOptionsMenu(true);
-        mDataManager = DataManager.getDataManager(mContext);
-        Log.d(TAG, "DataManager" + mDataManager.toString());
 
-        //mDataManager.setResponselistener(this);
+        mDataManager = DataManager.getDataManager(mContext);
+ //       Log.d(TAG, "DataManager" + mDataManager.toString());
+
+
 
     }
 
@@ -56,22 +55,15 @@ public class RecipesFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.recipes_fragment_layout, container, false);
         mDataSet = mDataManager.mDataSet;
 
-        Log.d(TAG, "DataManager size: " + mDataManager.mDataSet.size());
-        Log.d(TAG, "Dataset size: " + mDataSet.size());
-        //mDataSet = new ArrayList<>();
+//        Log.d(TAG, "DataManager size: " + mDataManager.mDataSet.size());
+//        Log.d(TAG, "Dataset size: " + mDataSet.size());
+
 
         RecyclerView mRecyclerView = ((RecyclerView) rootView.findViewById(R.id.recipes_recycler_view));
         RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(getActivity(), 2);
         mRecyclerView.setLayoutManager(mLayoutManager);
         mAdapter = new RecipesGridAdapter(mDataSet, (MainActivity)getActivity());
-//        mAdapter = new RecipesGridAdapter(mDataSet, new RecipesGridAdapter.RecipeViewHolder.RecipeClickListener() {
-//            @Override
-//            public void onRecipeItemClickListener(int position) {
-//                Toast.makeText(mContext, "Position " + position, Toast.LENGTH_SHORT).show();
-//                RecipeDetailFragment recipeDetailFragment = new RecipeDetailFragment();
-//                getFragmentManager().beginTransaction().addToBackStack(null).replace(R.id.fragment_container, recipeDetailFragment).commit();
-//            }
-//        });
+
         mRecyclerView.setAdapter(mAdapter);
 
 

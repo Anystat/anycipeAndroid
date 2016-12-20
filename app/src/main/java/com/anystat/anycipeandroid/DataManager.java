@@ -70,11 +70,13 @@ public class DataManager {
 
     public void findRecipeFromAPI(String request){
         Log.d(TAG_API, "FIND RECIPE BY ID");
+
         findRecipe(request).enqueue(recipeCallback());
     }
 
 
     public void getRecipesNamesFromAPI(){
+
         getRecipes().enqueue(recipeCallback());
 
     }
@@ -91,9 +93,11 @@ public class DataManager {
     }
 
     private Callback<List<Recipe>> recipeCallback(){
+
         return new Callback<List<Recipe>>() {
             @Override
             public void onResponse(Call<List<Recipe>> call, Response<List<Recipe>> response) {
+
                 if(response.isSuccessful()){
                     mDataSet = collectRecipes(response);
                     Log.d(TAG_API, "DataManager collect " + mDataSet.size() +" recipes");

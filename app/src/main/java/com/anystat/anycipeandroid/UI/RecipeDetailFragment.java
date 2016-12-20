@@ -1,17 +1,24 @@
 package com.anystat.anycipeandroid.UI;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.anystat.anycipeandroid.DataManager;
 import com.anystat.anycipeandroid.Network.response.Recipe;
+import com.anystat.anycipeandroid.Network.response.RecipeIngredient;
 import com.anystat.anycipeandroid.R;
+
+import java.util.ArrayList;
 
 
 public class RecipeDetailFragment extends Fragment {
@@ -19,10 +26,12 @@ public class RecipeDetailFragment extends Fragment {
     DataManager mDataManager;
     Recipe mRecipe;
     int position = 0;
+    Context mContext;
 
     TextView mViewTitle;
-    TextView mViewDescription;
+    TextView mViewDescription, mViewInstruction;
     ImageView mViewImage;
+    ListView mListView;
 
    public static RecipeDetailFragment newInstance(int position){
        RecipeDetailFragment recipeDetailFragment = new RecipeDetailFragment();
@@ -46,17 +55,14 @@ public class RecipeDetailFragment extends Fragment {
         mDataManager = DataManager.getDataManager(getContext());
         position = getShownPosition();
         mRecipe = mDataManager.mDataSet.get(position);
+        mContext = getContext();
 
     }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-       // Log.d(TAG, "savedInstanceState = " + savedInstanceState.size());
-//        if(savedInstanceState!=null){
-//            position = savedInstanceState.getInt("position");
-//            Log.d(TAG, "savedInstanceState position = " + position);
-//        }
+
         return inflater.inflate(R.layout.recipe_detail_fragment_layout, container, false);
 
     }
@@ -66,8 +72,36 @@ public class RecipeDetailFragment extends Fragment {
         super.onStart();
         mViewTitle = ((TextView) getActivity().findViewById(R.id.recipe_detail_title));
         mViewTitle.setText(mRecipe.receipt);
-        mViewDescription = ((TextView) getActivity().findViewById(R.id.recipe_detail_description));
+        mViewDescription = new TextView(mContext);
         mViewDescription.setText(mRecipe.description);
+        mViewInstruction = new TextView(mContext);
+        mViewInstruction.setText(mRecipe.instruction);
+
+        mListView = (ListView) getActivity().findViewById(R.id.recipe_detail_ingredients_list_view);
+        ArrayList<String> list = new ArrayList<>();;
+
+        mListView.addHeaderView(mViewDescription);
+        mListView.addFooterView(mViewInstruction);
+
+        if(mRecipe.ingredients != null) {
+            ArrayList<RecipeIngredient> arrayList = (ArrayList<RecipeIngredient>) mRecipe.ingredients;
+            for (RecipeIngredient ingredient : arrayList) {
+                String name = ingredient.name;
+                Log.d(TAG, "Ingredient name = " + name);
+                list.add(name);
+            }
+        }
+
+       String[] data =  list.toArray(new String[0]);
+        Log.d(TAG, "Data = " + data.length);
+       ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(), R.layout.recipe_detail_ingredient_item_layout,R.id.ingredient_name_text_view, data);
+       mListView.setAdapter(adapter);
+
+
+
+
+
+
 
     }
 

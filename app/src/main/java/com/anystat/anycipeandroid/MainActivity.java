@@ -24,15 +24,15 @@ public class MainActivity extends AppCompatActivity
      //RecipesFragment mRecipesFragment;
      DataManager mDataManager;
     private final String TAG = getClass().getSimpleName();
-
+    //private ProgressBar mProgressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        //mProgressBar = (ProgressBar) findViewById(R.id.recipe_load_progress);
         setSupportActionBar(toolbar);
-        findViewById(R.id.fragment_container);
         mDataManager = DataManager.getDataManager(this);
         mDataManager.setResponselistener(this);
         Log.d(TAG, "DataManager" + mDataManager.toString());
@@ -54,7 +54,10 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
 
+
     }
+
+
 
     @Override
     public void onBackPressed() {
@@ -78,13 +81,19 @@ public class MainActivity extends AppCompatActivity
             public boolean onQueryTextSubmit(String query) {
                 if(query != null){
                     mDataManager.findRecipeFromAPI(query);
+                    //mProgressBar.setVisibility(View.VISIBLE);
                 }
                 return true;
             }
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                return false;
+                if(newText.length() >= 2){
+
+                    mDataManager.findRecipeFromAPI(newText);
+                    //mProgressBar.setVisibility(View.VISIBLE);
+                }
+                return true;
             }
         });
         return true;
@@ -132,6 +141,7 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void response(boolean success, String error) {
+       // mProgressBar.setVisibility(View.INVISIBLE);
         if(success){
             Log.d(TAG, "Response reached");
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new RecipesFragment()).setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).commit();
