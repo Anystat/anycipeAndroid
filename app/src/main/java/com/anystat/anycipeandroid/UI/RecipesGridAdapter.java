@@ -7,10 +7,15 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.anystat.anycipeandroid.Network.response.Recipe;
 import com.anystat.anycipeandroid.R;
 
+import java.util.List;
+
 public class RecipesGridAdapter extends RecyclerView.Adapter<RecipesGridAdapter.RecipeViewHolder> {
-    private String[] mDataset;
+
+    private final String TAG = getClass().getSimpleName();
+    private List<Recipe> mDataSet;
     private RecipeViewHolder.RecipeClickListener mClickListener;
 
 
@@ -22,7 +27,7 @@ public class RecipesGridAdapter extends RecyclerView.Adapter<RecipesGridAdapter.
 
         public RecipeViewHolder(View v, RecipeClickListener clickListener) {
             super(v);
-            this.mListener = clickListener;
+            mListener = clickListener;
             mTextView = ((TextView) v.findViewById(R.id.recipe_item_header));
             mImageView = ((ImageView) v.findViewById(R.id.recipe_item_img));
             v.setOnClickListener(this);
@@ -45,31 +50,45 @@ public class RecipesGridAdapter extends RecyclerView.Adapter<RecipesGridAdapter.
     }
 
 
-    public RecipesGridAdapter(String[] dataset, RecipeViewHolder.RecipeClickListener clickListener) {
+
+    public RecipesGridAdapter(List<Recipe> dataset, RecipeViewHolder.RecipeClickListener clickListener) {
         this.mClickListener = clickListener;
-        this.mDataset = dataset;
+        this.mDataSet = dataset;
     }
 
+    public void clear(){
+        mDataSet.clear();
+        notifyDataSetChanged();
+    }
+
+    public void setData(List<Recipe> data){
+        clear();
+        mDataSet = data;
+        notifyDataSetChanged();
+
+
+
+    }
     @Override
     public RecipeViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.recipe_recycler_view_item_layout, parent, false);
-
-
-
+        View v = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.recipe_recycler_view_item_layout, parent, false);
         return new RecipeViewHolder(v, mClickListener);
     }
 
     @Override
     public void onBindViewHolder(RecipeViewHolder holder, int position) {
-        holder.mTextView.setText(mDataset[position]);
+        Recipe recipe = mDataSet.get(position);
+        holder.mTextView.setText(recipe.receipt);
         holder.mImageView.setImageResource(R.drawable.test);
     }
 
     @Override
     public int getItemCount() {
-        return mDataset.length;
+       return mDataSet.size();
     }
+
+
 
 
 }

@@ -1,51 +1,82 @@
 package com.anystat.anycipeandroid.UI;
 
-import android.support.v4.app.Fragment;;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
+import com.anystat.anycipeandroid.DataManager;
+import com.anystat.anycipeandroid.MainActivity;
+import com.anystat.anycipeandroid.Network.response.Recipe;
 import com.anystat.anycipeandroid.R;
 
-public class RecipesFragment extends Fragment{
-    private RecyclerView mRecyclerView;
-    private RecyclerView.Adapter mAdapter;
-    private RecyclerView.LayoutManager mLayoutManager;
-    private Context mContext;
+import java.util.List;
 
-    String[] mTestData = {"Мясо", "Колбасы", "Консервы", "Салат", "Сникерсы", "Баунти", "Марсы", "Жареный арахис"};
+
+
+public class RecipesFragment extends Fragment {
+    private final String TAG = this.getClass().getSimpleName();
+    private RecipesGridAdapter mAdapter;
+    private Context mContext;
+    private DataManager mDataManager;
+    List<Recipe> mDataSet;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mContext = getActivity().getApplicationContext();
+
+        mDataManager = DataManager.getDataManager(mContext);
+ //       Log.d(TAG, "DataManager" + mDataManager.toString());
+
+
+
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+
+        super.onCreateOptionsMenu(menu, inflater);
+
+
+
     }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.recipes_fragment_layout, container, false);
+        mDataSet = mDataManager.mDataSet;
+
+//        Log.d(TAG, "DataManager size: " + mDataManager.mDataSet.size());
+//        Log.d(TAG, "Dataset size: " + mDataSet.size());
+
 
         RecyclerView mRecyclerView = ((RecyclerView) rootView.findViewById(R.id.recipes_recycler_view));
         RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(getActivity(), 2);
-
-
         mRecyclerView.setLayoutManager(mLayoutManager);
-        RecipesGridAdapter adapter = new RecipesGridAdapter(mTestData, new RecipesGridAdapter.RecipeViewHolder.RecipeClickListener() {
-            @Override
-            public void onRecipeItemClickListener(int position) {
-                Toast.makeText(mContext, "Postion " + position, Toast.LENGTH_SHORT).show();
-                getFragmentManager().beginTransaction().addToBackStack(null).replace(R.id.fragment_container, new RecipeDetailFragment()).commit();
-            }
-        });
-        mRecyclerView.setAdapter(adapter);
+        mAdapter = new RecipesGridAdapter(mDataSet, (MainActivity)getActivity());
+
+        mRecyclerView.setAdapter(mAdapter);
 
 
         return rootView;
+    }
+
+
+
+
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
     }
 }
